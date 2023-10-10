@@ -1,21 +1,24 @@
 <template>
-  <view class="scroll-view-container">
-    <!-- 左侧滑动区域 -->
-    <scroll-view scroll-y="true" :style="{height: wh + 'px'}" class="left-scroll-view">
-      <view class="left-scroll-view-item" :class="{active: index === activeIndex}" @click="changeIndex(index)" v-for="(item, index) in cateList" :key="item.cat_id">{{item.cat_name}}</view>
-    </scroll-view>
-    <!-- 右侧滑动区域 -->
-    <scroll-view scroll-y="true" :style="{height: wh + 'px'}" :scroll-top="scrollTop">
-      <view class="cate-lv2" v-for="(item, index) in cateLevel2" :key="item.cat_id">
-        <view class="cate-lv2-title" >{{item.cat_name}}</view>
-        <view class="cate-lv3-list">
-          <view class="cate-lv3-item" v-for="(item2, index) in item.children" :key="index" @click="gotoGoodsList(item2)">
-            <image :src="item2.cat_icon" mode=""></image>
-            <text>{{item2.cat_name}}</text>
+  <view>
+    <my-search @click="gotoSearch"></my-search>
+    <view class="scroll-view-container">
+      <!-- 左侧滑动区域 -->
+      <scroll-view scroll-y="true" :style="{height: wh + 'px'}" class="left-scroll-view">
+        <view class="left-scroll-view-item" :class="{active: index === activeIndex}" @click="changeIndex(index)" v-for="(item, index) in cateList" :key="item.cat_id">{{item.cat_name}}</view>
+      </scroll-view>
+      <!-- 右侧滑动区域 -->
+      <scroll-view scroll-y="true" :style="{height: wh + 'px'}" :scroll-top="scrollTop">
+        <view class="cate-lv2" v-for="(item, index) in cateLevel2" :key="item.cat_id">
+          <view class="cate-lv2-title" >{{item.cat_name}}</view>
+          <view class="cate-lv3-list">
+            <view class="cate-lv3-item" v-for="(item2, index) in item.children" :key="index" @click="gotoGoodsList(item2)">
+              <image :src="item2.cat_icon" mode=""></image>
+              <text>{{item2.cat_name}}</text>
+            </view>
           </view>
         </view>
-      </view>
-    </scroll-view>
+      </scroll-view>
+    </view>
   </view>
 </template>
 
@@ -32,7 +35,7 @@
     },
     onLoad(){
       const sysInfo = uni.getSystemInfoSync()
-      this.wh = sysInfo.windowHeight
+      this.wh = sysInfo.windowHeight - 50
       this.getCateList()
     },
     methods: {
@@ -52,6 +55,11 @@
       gotoGoodsList(item){
         uni.navigateTo({
           url: '/subpkg/goods_list/goods_list?cid = ' + item.cat_id
+        })
+      },
+      gotoSearch(){
+        uni.navigateTo({
+          url: '/subpkg/search/search'
         })
       }
     }
