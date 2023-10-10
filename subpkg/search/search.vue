@@ -17,7 +17,7 @@
         <uni-icons type="trash" size="17" @click="clear"></uni-icons>
       </view>
       <view class="history-list">
-        <uni-tag v-for="(item, index) in historyList" :key="index" :text="item"></uni-tag>
+        <uni-tag v-for="(item, index) in historyList" :key="index" :text="item" @click="gotoGoodsList(item)"></uni-tag>
       </view>
     </view>
   </view>
@@ -69,6 +69,11 @@
       clear(){
         this.historyList = []
         uni.removeStorageSync('kw')
+      },
+      gotoGoodsList(kw){
+        uni.navigateTo({
+          url:'/subpkg/goods_list/goods_list?query=' + kw
+        })
       }
     }
   }
