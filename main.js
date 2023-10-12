@@ -13,10 +13,15 @@ uni.$http = $http
 $http.baseUrl = 'https://api-hmugo-web.itheima.net'
 
 // 请求拦截器
-$http.beforeRequest = function(){
+$http.beforeRequest = function(options){
   uni.showLoading({
     title: "数据加载中..."
   })
+  if(options.url.indexOf('/my/') !== -1){
+    options.header = {
+      Authorization:store.state.user.token
+    }
+  }
 }
 // 响应拦截器
 $http.afterRequest = function(){

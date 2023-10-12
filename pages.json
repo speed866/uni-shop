@@ -63,7 +63,7 @@
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "小程序",
     "navigationBarBackgroundColor": "#c00000",
-    "backgroundColor": "#F8F8F8",
+    "backgroundColor": "#f8f8f8",
     "app-plus": {
       "background": "#efeff4"
     }
