@@ -19,7 +19,7 @@
         
       </view>
       <view class="yf">
-        快递：免运费
+        快递：免运费--{{total}}--{{cart.length}}
       </view>
     </view>
     
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+  import {mapState, mapMutations, mapGetters} from 'vuex'
   export default {
     data() {
       return {
@@ -39,11 +40,10 @@
         options: [{
         			icon: 'shop',
         			text: '店铺',
-        			info: 2,
         		}, {
         			icon: 'cart',
         			text: '购物车',
-        			info: 2
+        			info: 0
         		}],
         	    buttonGroup: [{
         	      text: '加入购物车',
@@ -62,7 +62,29 @@
       const goods_id = options.goods_id
       this.getGoodsDetail(goods_id)
     },
+    computed:{
+      ...mapState('cart', ['cart']),
+      ...mapGetters('cart', ['total'])
+    },
+    watch:{
+      total:{
+        immediate: true,
+        handler(value){
+          const findResult = this.options.find(item => item.text === '购物车')
+          if(findResult){
+            findResult.info = value
+          }
+        }
+      },
+      /* total(value){
+        const findResult = this.options.find(item => item.text === '购物车')
+        if(findResult){
+          findResult.info = value
+        }
+      } */
+    },
     methods:{
+      ...mapMutations('cart', ['addToCart']),
       async getGoodsDetail(goods_id){
         const {data: res} = await uni.$http.get('/api/public/v1/goods/detail', {goods_id})
         if(res.meta.status !== 200) return uni.$showMsg()
@@ -83,8 +105,17 @@
         }
       },
       buttonClick (e) {
-        console.log(e)
-        this.options[1].info++
+        if(e.content.text === '加入购物车'){
+          const goods = {
+            goods_id: this.goodsInfo.goods_id,
+            goods_name: this.goodsInfo.goods_name,
+            goods_price: this.goodsInfo.goods_price,
+            goods_count: 1,
+            goods_small_logo: this.goodsInfo.goods_small_logo,
+            goods_state: true
+          }
+          this.addToCart(goods)
+        }
       }
     }
   }

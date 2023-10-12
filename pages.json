@@ -61,7 +61,7 @@
   }],
   "globalStyle": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "wangwei",
+    "navigationBarTitleText": "小程序",
     "navigationBarBackgroundColor": "#c00000",
     "backgroundColor": "#F8F8F8",
     "app-plus": {
@@ -96,4 +96,5 @@
       }
     ]
   }
+
 }
